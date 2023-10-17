@@ -5,7 +5,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, {polling: true});
 
-bot.onText(/(https:\/\/(www\.)?)?instagram.com\/(\S+)/, function (msg, match) {
+bot.onText(/(https:\/\/)?instagram.com\/(\S+)/, function (msg, match) {
     const chatId = msg.chat.id;
     const path = match[2];
 

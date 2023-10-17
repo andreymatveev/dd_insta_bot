@@ -23,12 +23,14 @@ jobs:
         EXCLUDE: ""
         SCRIPT_AFTER: |
           cd ${{ secrets.TARGET }}
+          rm .env
           touch .env
           echo PROJECT_PATH=${{ secrets.TARGET }}src >> .env
           echo PROJECT_NAME=ddinsta_bot >> .env
-          echo PROJECT_PORTS="${{ secrets.PROJECT_PORTS }}" >> .env
+          echo PROJECT_PORTS=\"${{ secrets.PROJECT_PORTS }}\" >> .env
           cat .env
           cd ./src
+          rm .env
           touch .env
           echo BOT_TOKEN=${{ secrets.BOT_TOKEN }} >> .env
           cat .env
