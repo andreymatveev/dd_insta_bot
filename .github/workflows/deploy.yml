@@ -22,6 +22,7 @@ jobs:
         TARGET: ${{ secrets.TARGET }}
         EXCLUDE: ""
         SCRIPT_AFTER: |
+          cd ${{ secrets.TARGET }}
           touch .env
           echo PROJECT_PATH=${{ secrets.TARGET }}/src >> .env
           echo PROJECT_NAME=ddinsta_bot >> .env
@@ -32,4 +33,4 @@ jobs:
           echo BOT_TOKEN=${{ secrets.BOT_TOKEN }} >> .env
           cat .env
           cd ..
-          docker-compose -up -b
+          docker-compose up -b
