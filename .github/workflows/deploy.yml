@@ -26,7 +26,7 @@ jobs:
           touch .env
           echo PROJECT_PATH=${{ secrets.TARGET }}src >> .env
           echo PROJECT_NAME=ddinsta_bot >> .env
-          echo PROJECT_PORTS=${{ secrets.PROJECT_PORTS }} >> .env
+          echo PROJECT_PORTS="${{ secrets.PROJECT_PORTS }}" >> .env
           cat .env
           cd ./src
           touch .env
