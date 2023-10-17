@@ -1,0 +1,33 @@
+name: Node CI
+
+on:
+  create:
+    tags:
+      - v*
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy to Server
+      uses: easingthemes/ssh-deploy@main
+      with:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SOURCE: "/"
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+        TARGET: ${{ secrets.TARGET }}
+        SCRIPT_AFTER: |
+          touch .env
+          echo PROJECT_PATH=${{ secrets.TARGET }}/src >> .env
+          echo PROJECT_NAME=ddinsta_bot >> .env
+          echo PROJECT_PORTS=${{ secrets.PROJECT_PORTS }} >> .env
+          cat .env
+          cd ./src
+          touch .env
+          echo BOT_TOKEN=${{ secrets.BOT_TOKEN }} >> .env
+          cat .env
+          cd ..
+          docker-compose -up -b
