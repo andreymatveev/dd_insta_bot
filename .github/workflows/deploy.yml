@@ -1,15 +1,14 @@
 name: Node CI
 
 on:
-  create:
-    tags:
-      - v*
+  push:
+    branches:
+      - master
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
-
     steps:
     - name: Deploy to Server
       uses: easingthemes/ssh-deploy@main
@@ -21,7 +20,11 @@ jobs:
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
         TARGET: ${{ secrets.TARGET }}
         EXCLUDE: ""
+        # Rsync doesn't work properly, so for now there is just a repo-clone script
         SCRIPT_AFTER: |
+          git init .
+          git remote add origin ${{ github.server_url }}/${{ github.repository }}
+          git pull origin master
           cd ${{ secrets.TARGET }}
           rm .env
           touch .env
